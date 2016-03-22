@@ -1,18 +1,9 @@
+var Enum = require('tiny-enum')
 var CONSTANTS = require('./CONSTANTS')
 var KEY_COUNT = CONSTANTS.KEY_COUNT
 var BASE_KEY_MAP = CONSTANTS.BASE_KEY_MAP
 
-function Enum () {
-  var values = Array.prototype.slice.call(arguments, 0)
-  var en = {}
-
-  for (var i = 0, v; v = values[i++];) {
-    en[v] = v
-  }
-  return en
-}
-
-var KEY_MODE = Enum('INACTIVE', 'DOWN', 'UP', 'JUST_DOWN', 'JUST_UP')
+var KEY_MODE = new Enum('INACTIVE', 'DOWN', 'UP', 'JUST_DOWN', 'JUST_UP')
 
 module.exports = KeyboardSignal
 

@@ -24,5 +24,8 @@
   "bugs": {
     "url": "https://github.com/stevekane/keyboard-signal/issues"
   },
-  "homepage": "https://github.com/stevekane/keyboard-signal#readme"
+  "homepage": "https://github.com/stevekane/keyboard-signal#readme",
+  "dependencies": {
+    "tiny-enum": "^1.0.0"
+  }
 }
