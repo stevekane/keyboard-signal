@@ -1,0 +1,28 @@
+{
+  "name": "keyboard-signal.js",
+  "version": "1.0.0",
+  "description": "Turns keyboard into queryable Signal-like data structure",
+  "main": "index.js",
+  "scripts": {
+    "test": "node test",
+    "build": "browserify -d -o dist/app.js examples/main.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/stevekane/keyboard-signal.git"
+  },
+  "keywords": [
+    "keyboard",
+    "signal",
+    "queryable",
+    "data",
+    "base",
+    "keycodes"
+  ],
+  "author": "Steve Kane",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/stevekane/keyboard-signal/issues"
+  },
+  "homepage": "https://github.com/stevekane/keyboard-signal#readme"
+}
