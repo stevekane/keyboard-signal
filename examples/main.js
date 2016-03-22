@@ -17,6 +17,8 @@ function makeUpdate () {
 
     E_EL.innerText = 'E: ' + JSON.stringify(kbs.E, null, 2)
     KC_EL.innerText = '69: ' + JSON.stringify(kbs[69], null, 2)
+
+    if (kbs.E.mode === 'JUST_DOWN') console.log('You just pushed E')
     requestAnimationFrame(update)
   }
 }
