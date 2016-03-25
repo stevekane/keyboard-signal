@@ -1,10 +1,10 @@
 # KeyboardSignal
 
-Wrap the keyboard events emmitted by the browser and transform them into a data structure that can be queried in an intuitive way.  Refer to keys by keyCode (e.g. 32 for SPACE), use convenient mappings to familiar names, or provide your own custom mappings as parameters to the constructor.
+Wrap the keyboard events emitted by the browser and transform them into a data structure that can be queried in an intuitive way.  Refer to keys by keyCode (e.g. 32 for SPACE), use convenient mappings to familiar names, or provide your own custom mappings as parameters to the constructor.
 
 ## Queries
 
-Queries are dead simple.  Simply ask your keyboard signal instance for their active mode as well as the duration that the key has been held down.
+Queries are dead simple.  Simply ask your keyboard signal instance for their mode as well as the duration that the key has been held down.
 
 ## API
 
@@ -19,10 +19,10 @@ function update () {
 }
 ```
 
-## Example useage
+## Example usage
 
 ```javascript
-var kbs = new KeyboardManager(document.body)
+var kbs = new KeyboardSignal(document.body)
 var last = Date.now()
 var current = Date.now()
 var dT = current - last
@@ -60,7 +60,7 @@ I do not want to require you to tear this system down using a custom destructor 
 import React from 'react'
 import DOM from 'react-dom'
 
-const kbs = new KeyboardManager(document.body)
+const kbs = new KeyboardSignal(document.body)
 
 DOM.render(<div {...kbs.eventListeners} id="app-root"></div>, document.body)
 ```

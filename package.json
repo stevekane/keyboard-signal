@@ -1,6 +1,6 @@
 {
   "name": "keyboard-signal",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Turns keyboard into queryable Signal-like data structure",
   "main": "index.js",
   "scripts": {
