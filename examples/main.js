@@ -7,11 +7,6 @@ for (var key in kbs.eventListeners) {
   document.body.addEventListener(key, kbs.eventListeners[key])
 }
 
-document.body.addEventListener('keydown', kbs.eventListeners.keydown)
-document.body.addEventListener('keyup', kbs.keyup)
-document.body.addEventListener('blur', kbs.blur)
-document.body.addEventListener('focus', kbs.focus)
-
 function makeUpdate () {
   var last = Date.now()
   var current = Date.now()
