@@ -1,12 +1,16 @@
 var Enum = require('tiny-enum')
 var KeyboardSignal = require('../index.js')
 var kbs = new KeyboardSignal(document.body)
-var E_EL = document.getElementById('E')
-var KC_EL = document.getElementById('69')
+var KBS_EL = document.getElementById('KBS')
 
-function replacer (key, value) {
-  return key === 'previousMode' || key === 'mode' ? value.toString() : value
+for (var key in kbs.eventListeners) {
+  document.body.addEventListener(key, kbs.eventListeners[key])
 }
+
+document.body.addEventListener('keydown', kbs.eventListeners.keydown)
+document.body.addEventListener('keyup', kbs.keyup)
+document.body.addEventListener('blur', kbs.blur)
+document.body.addEventListener('focus', kbs.focus)
 
 function makeUpdate () {
   var last = Date.now()
@@ -19,15 +23,12 @@ function makeUpdate () {
     dT = current - last
 
     KeyboardSignal.update(dT, kbs)
+    if (kbs.CTRL.mode.DOWN && kbs.C.mode.JUST_DOWN)               console.log('Copy!')
+    if (kbs.CTRL.mode.DOWN && kbs.V.mode.JUST_DOWN)               console.log('Paste!')
+    if (kbs.SPACE.mode.JUST_UP && kbs.SPACE.downDuration >= 1000) console.log('fire the missiles')
 
-    E_EL.innerText = 'E: ' + JSON.stringify(kbs.E, replacer, 2)
-    KC_EL.innerText = '69: ' + JSON.stringify(kbs[69], replacer, 2)
-
-    if (kbs.CTRL.mode.DOWN && kbs.C.mode.JUST_DOWN) console.log('Copy!')
-    if (kbs.CTRL.mode.DOWN && kbs.V.mode.JUST_DOWN) console.log('Paste!')
     requestAnimationFrame(update)
   }
 }
 
-window.kbs = kbs
 requestAnimationFrame(makeUpdate())

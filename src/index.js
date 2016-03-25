@@ -3,15 +3,15 @@ var CONSTANTS = require('./CONSTANTS')
 var KEY_COUNT = CONSTANTS.KEY_COUNT
 var BASE_KEY_MAP = CONSTANTS.BASE_KEY_MAP
 
-var KEY_MODE = new Enum('INACTIVE', 'DOWN', 'UP', 'JUST_DOWN', 'JUST_UP')
-
-module.exports = KeyboardSignal
+var KEY_MODE = new Enum('DOWN', 'UP', 'JUST_DOWN', 'JUST_UP')
 
 function KeyState () {
-  this.previousMode = KEY_MODE.UP
+  this.nextMode = KEY_MODE.UP
   this.mode = KEY_MODE.UP
   this.downDuration = 0
 }
+
+module.exports = KeyboardSignal
 
 function KeyboardSignal (body, keyMap) {
   keyMap = keyMap || BASE_KEY_MAP
@@ -38,39 +38,62 @@ function KeyboardSignal (body, keyMap) {
   function keydown (e) {
     var ks = self[e.keyCode]
 
-    if (ks.mode !== KEY_MODE.DOWN) ks.mode = KEY_MODE.JUST_DOWN
+
+    self.active = true
+    if (ks) ks.nextMode = KEY_MODE.DOWN
   }
 
   function keyup (e) {
     var ks = self[e.keyCode]
 
-    ks.mode = KEY_MODE.JUST_UP
+    self.active = true
+    if (ks) ks.nextMode = KEY_MODE.UP
   }
 
   function blur () {
-    for (var i = 0, ks; ks = self[i]; i++) {
-      ks.mode = KEY_MODE.INACTIVE
-    }
+    self.active = false
   }
 
   function focus () {
-    for (var i = 0, ks; ks = self[i]; i++) {
-      ks.mode = KEY_MODE.UP
-    }
+    self.active = true
   }
 
-  body.addEventListener('keydown', keydown)
-  body.addEventListener('keyup', keyup)
-  body.addEventListener('blur', blur)
-  body.addEventListener('focus', focus)
+  this.active = false
+  this.eventListeners = {
+    keydown: keydown,
+    keyup: keyup,
+    blur: blur,
+    focus: focus
+  }
 }
+
+KeyboardSignal.KeyState = KeyState
+
+KeyboardSignal.KEY_MODE = KEY_MODE
 
 KeyboardSignal.update = function (dT, kbs) {
   for (var i = 0, ks; ks = kbs[i]; i++) {
-    if      (ks.previousMode === KEY_MODE.JUST_DOWN) ks.mode = KEY_MODE.DOWN
-    else if (ks.previousMode === KEY_MODE.JUST_UP)   ks.mode = KEY_MODE.UP
-    else {}
-    ks.downDuration = ks.mode === KEY_MODE.DOWN ? ks.downDuration + dT : 0
-    ks.previousMode = ks.mode
+    if      (!kbs.active)                       ks.mode = KEY_MODE.UP
+    else if (ks.mode.JUST_DOWN)                 ks.mode = KEY_MODE.DOWN
+    else if (ks.mode.JUST_UP)                   ks.mode = KEY_MODE.UP
+    else if (ks.nextMode.DOWN && !ks.mode.DOWN) ks.mode = KEY_MODE.JUST_DOWN
+    else if (ks.nextMode.UP && !ks.mode.UP)     ks.mode = KEY_MODE.JUST_UP
+    else                                        ks.mode = ks.nextMode
+
+    if (!kbs.active || ks.mode.UP || ks.mode.JUST_DOWN) ks.downDuration = 0
+    else                                                ks.downDuration += dT
   }
+  return kbs
+}
+
+KeyboardSignal.prototype.toString = function () {
+  var out = ''
+
+  for (var i = 0; i < KEY_COUNT; i++) {
+    for (var j = 0; j < 10; j++) {
+      out += this[i].mode.toString() + ' /\t' + this[i].downDuration + '\t'
+    }
+    out += '\n'
+  }
+  return out
 }

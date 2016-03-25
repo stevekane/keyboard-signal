@@ -46,6 +46,7 @@ module.exports.BASE_KEY_MAP = {
   BACKSPACE: 8,
   TAB: 9,
   ENTER: 13,
+  SPACE: 32,
   SHIFT: 16,
   CTRL: 17,
   ALT: 18,

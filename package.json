@@ -1,5 +1,5 @@
 {
-  "name": "keyboard-signal.js",
+  "name": "keyboard-signal",
   "version": "1.0.0",
   "description": "Turns keyboard into queryable Signal-like data structure",
   "main": "index.js",
