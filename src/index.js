@@ -26,13 +26,13 @@ function KeyboardSignal (body, keyMap) {
   function defProp (key) {
     Object.defineProperty(self, key, {
       enumerable: false,
-      get: function () { 
+      get: function () {
         var keyCode = keyMap[key]
         var ks = self[keyCode]
 
         return ks
       }
-    }) 
+    })
   }
 
   function keydown (e) {
@@ -48,6 +48,8 @@ function KeyboardSignal (body, keyMap) {
 
     self.active = true
     if (ks) ks.nextMode = KEY_MODE.UP
+
+    if (e.keyCode === 91 || e.keyCode === 93) reset()
   }
 
   function blur () {
@@ -56,6 +58,12 @@ function KeyboardSignal (body, keyMap) {
 
   function focus () {
     self.active = true
+  }
+
+  function reset () {
+    for (var i = 0; i < KEY_COUNT; i++) {
+      self[i].nextMode = KEY_MODE.UP
+    }
   }
 
   this.active = false
